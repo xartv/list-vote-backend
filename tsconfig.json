@@ -21,7 +21,8 @@
       "@app/*": ["src/app/*"],
       "@auth/*": ["src/auth/*"],
       "@user/*": ["src/user/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@decorators/*": ["src/decorators/*"]
     }
   }
 }
