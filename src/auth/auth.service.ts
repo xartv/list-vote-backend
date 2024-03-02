@@ -8,6 +8,13 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '@user/user.service';
 import { AuthDto } from './dto/auth.dto';
 import { verify } from 'argon2';
+import { Response } from 'express';
+import {
+  EXEPTION_MSG_INVALID_REFRESH_TOKEN,
+  EXPIRE_DAY_REFRESH_TOKEN,
+  REFRESH_TOKEN_NAME,
+  SET_COOKIE_OPTIONS,
+} from './auth.constants';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +29,10 @@ export class AuthService {
 
     const tokens = this.issueToken(user.id);
 
-    return { ...user, tokens };
+    return {
+      user,
+      ...tokens,
+    };
   }
 
   async register(dto: AuthDto) {
@@ -35,7 +45,41 @@ export class AuthService {
 
     const tokens = this.issueToken(user.id);
 
-    return { ...user, tokens };
+    return { user, ...tokens };
+  }
+
+  addRefreshTokenToResponse(res: Response, refreshToken: string) {
+    const expiresIn = new Date();
+    expiresIn.setDate(expiresIn.getDate() + EXPIRE_DAY_REFRESH_TOKEN);
+
+    res.cookie(REFRESH_TOKEN_NAME, refreshToken, {
+      ...SET_COOKIE_OPTIONS,
+      expires: expiresIn,
+    });
+  }
+
+  removeRefreshTokenFromResponse(res: Response) {
+    res.cookie(REFRESH_TOKEN_NAME, '', {
+      ...SET_COOKIE_OPTIONS,
+      expires: new Date(0),
+    });
+  }
+
+  async getNewTokens(refreshToken: string) {
+    const result = await this.jwtService.verifyAsync(refreshToken);
+
+    if (!result)
+      throw new UnauthorizedException(EXEPTION_MSG_INVALID_REFRESH_TOKEN);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...user } = await this.userService.getById(result.id);
+
+    const tokens = this.issueToken(user.id);
+
+    return {
+      user,
+      ...tokens,
+    };
   }
 
   private issueToken(userId: string) {
