@@ -22,7 +22,8 @@
       "@auth/*": ["src/auth/*"],
       "@user/*": ["src/user/*"],
       "@config/*": ["src/config/*"],
-      "@decorators/*": ["src/decorators/*"]
+      "@decorators/*": ["src/decorators/*"],
+      "@user-list/*": ["src/user-list/*"]
     }
   }
 }

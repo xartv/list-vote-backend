@@ -14,10 +14,14 @@ import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
 import { Auth } from '@decorators/auth.decorator';
 import { CurrentUser } from '@decorators/user.decorator';
+import { UserListService } from '@user-list/user-list.service';
 
 @Controller('list')
 export class ListController {
-  constructor(private readonly listService: ListService) {}
+  constructor(
+    private readonly listService: ListService,
+    private readonly userListService: UserListService,
+  ) {}
 
   @UsePipes(new ValidationPipe())
   @Auth()
@@ -30,7 +34,7 @@ export class ListController {
 
     const createdList = await this.listService.create(title, id);
 
-    // create new module for relation user-list and add logic for adding current user to accessUsers
+    this.userListService.createRelation({ listId: createdList.id, userId: id });
 
     if (accessUsersIds?.length) {
       // add logic for creating relation with user-list
