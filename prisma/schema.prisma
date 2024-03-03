@@ -69,7 +69,7 @@ model ListItem {
   author   User   @relation("ListItemAuthor", fields: [authorId], references: [id])
 
   listId String @map("list_id")
-  list   List   @relation("ListItems", fields: [listId], references: [id])
+  list   List   @relation("ListItems", fields: [listId], references: [id], onDelete: Cascade)
 
   @@map("list_item")
 }
