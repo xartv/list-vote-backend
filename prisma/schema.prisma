@@ -54,6 +54,7 @@ model UserList {
   list   List   @relation("ListAccess", fields: [listId], references: [id])
 
   @@id([userId, listId])
+  @@map("user_list")
 }
 
 model ListItem {
