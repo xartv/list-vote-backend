@@ -22,20 +22,61 @@ model User {
   password String
   name     String?
 
-  //groups Group[]
+  lists        UserList[] @relation("ListAccess")
+  createdLists List[]     @relation("ListAuthor")
+
+  listItems ListItem[] @relation("ListItemAuthor")
 
   @@map("user")
 }
 
-// TODO - Reference for list (mvp1 without groups) 
-//model Group {
-//  id        String   @id @default(cuid())
-//  createdAt DateTime @default(now()) @map("created_at")
-//  updatedAt DateTime @updatedAt @map("updated_at")
+model List {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-//  name   String?
-//  user   User    @relation(fields: [userId], references: [id])
-//  userId String  @map("user_id")
+  title String
 
-//  @@map("group")
-//}
+  accessUsers UserList[] @relation("ListAccess")
+
+  authorId String @map("author_id")
+  author   User   @relation("ListAuthor", fields: [authorId], references: [id])
+
+  items ListItem[] @relation("ListItems")
+
+  @@map("list")
+}
+
+model UserList {
+  userId String @map("user_id")
+  listId String @map("list_id")
+  user   User   @relation("ListAccess", fields: [userId], references: [id])
+  list   List   @relation("ListAccess", fields: [listId], references: [id])
+
+  @@id([userId, listId])
+}
+
+model ListItem {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  title  String
+  rating Rating // enum with values 1 to 5
+
+  authorId String @map("author_id")
+  author   User   @relation("ListItemAuthor", fields: [authorId], references: [id])
+
+  listId String @map("list_id")
+  list   List   @relation("ListItems", fields: [listId], references: [id])
+
+  @@map("list_item")
+}
+
+enum Rating {
+  ONE
+  TWO
+  THREE
+  FOUR
+  FIVE
+}
