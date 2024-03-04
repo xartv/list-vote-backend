@@ -7,13 +7,15 @@ export class ListService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(title: string, authorId: string) {
-    const list = {
-      title,
-      authorId,
-    };
-
     return this.prisma.list.create({
-      data: list,
+      data: {
+        title,
+        author: {
+          connect: {
+            id: authorId,
+          },
+        },
+      },
     });
   }
 
