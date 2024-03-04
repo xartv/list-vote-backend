@@ -2,10 +2,10 @@ import {
   Controller,
   Get,
   Body,
-  Put,
   UsePipes,
   ValidationPipe,
   HttpCode,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Auth } from '@decorators/auth.decorator';
@@ -24,7 +24,7 @@ export class UserController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Put()
+  @Patch()
   @Auth()
   async updateProfile(@CurrentUser('id') id: string, @Body() dto: UserDto) {
     return this.userService.update(id, dto);

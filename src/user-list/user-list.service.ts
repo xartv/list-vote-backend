@@ -16,4 +16,17 @@ export class UserListService {
 
     return true;
   }
+
+  async deleteRelation(dto: UserListDto) {
+    await this.prisma.userList.delete({
+      where: {
+        userId_listId: {
+          listId: dto.listId,
+          userId: dto.userId,
+        },
+      },
+    });
+
+    return true;
+  }
 }

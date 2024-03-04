@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateListDto } from './dto/create-list.dto';
 import { UpdateListDto } from './dto/update-list.dto';
 import { PrismaService } from 'src/prisma.service';
 
@@ -7,7 +6,7 @@ import { PrismaService } from 'src/prisma.service';
 export class ListService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(title: string, authorId: string) {
+  create(title: string, authorId: string) {
     const list = {
       title,
       authorId,
@@ -15,6 +14,14 @@ export class ListService {
 
     return this.prisma.list.create({
       data: list,
+    });
+  }
+
+  findListsCreatedByUser(userId: string) {
+    return this.prisma.list.findMany({
+      where: {
+        authorId: userId,
+      },
     });
   }
 
@@ -30,15 +37,20 @@ export class ListService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} list`;
+  update(listId: string, dto: UpdateListDto) {
+    return this.prisma.list.update({
+      where: {
+        id: listId,
+      },
+      data: dto,
+    });
   }
 
-  update(id: number, updateListDto: UpdateListDto) {
-    return `This action updates a #${id} list`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} list`;
+  delete(listId: string) {
+    return this.prisma.list.delete({
+      where: {
+        id: listId,
+      },
+    });
   }
 }

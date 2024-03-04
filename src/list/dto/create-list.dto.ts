@@ -8,28 +8,28 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-class ItemDto {
-  @IsString()
-  title: string;
+//class ItemDto {
+//  @IsString()
+//  title: string;
 
-  @IsOptional()
-  @IsEnum(Rating)
-  rating?: Rating;
-}
+//  @IsOptional()
+//  @IsEnum(Rating)
+//  rating?: Rating;
+//}
 
 export class CreateListDto {
   @IsString()
   title: string;
 
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  @Type(() => String)
-  accessUsersIds?: string[];
+  //@IsOptional()
+  //@IsArray()
+  //@IsString({ each: true })
+  //@Type(() => String)
+  //accessUsersIds?: string[];
 
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => ItemDto)
-  items?: ItemDto[];
+  //@IsOptional()
+  //@IsArray()
+  //@ValidateNested({ each: true })
+  //@Type(() => ItemDto)
+  //items?: ItemDto[];
 }

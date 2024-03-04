@@ -30,41 +30,38 @@ export class ListController {
     @Body() createListDto: CreateListDto,
     @CurrentUser('id') id: string,
   ) {
-    const { title, accessUsersIds, items } = createListDto;
+    const { title } = createListDto;
 
     const createdList = await this.listService.create(title, id);
 
-    this.userListService.createRelation({ listId: createdList.id, userId: id });
-
-    if (accessUsersIds?.length) {
-      // add logic for creating relation with user-list
-    }
-
-    if (items?.length) {
-      // create new module for relation list-item and add logic for creating list item + relation
-    }
+    await this.userListService.createRelation({
+      listId: createdList.id,
+      userId: id,
+    });
 
     return createdList;
   }
 
   @Auth()
-  @Get()
-  findAll(@CurrentUser('id') id: string) {
+  @Get('available')
+  findAllAvailable(@CurrentUser('id') id: string) {
     return this.listService.findAvailableListsForUser(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.listService.findOne(+id);
+  @Auth()
+  @Get('created')
+  findAllCreated(@CurrentUser('id') id: string) {
+    return this.listService.findListsCreatedByUser(id);
   }
 
+  @UsePipes(new ValidationPipe())
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
-    return this.listService.update(+id, updateListDto);
+    return this.listService.update(id, updateListDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.listService.remove(+id);
+    return this.listService.delete(id);
   }
 }
