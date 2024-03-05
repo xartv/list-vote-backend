@@ -40,7 +40,7 @@ model List {
   accessUsers UserList[] @relation("ListAccess")
 
   authorId String @map("author_id")
-  author   User   @relation("ListAuthor", fields: [authorId], references: [id])
+  author   User   @relation("ListAuthor", fields: [authorId], references: [id], onDelete: Cascade)
 
   items ListItem[] @relation("ListItems")
 
@@ -50,7 +50,7 @@ model List {
 model UserList {
   userId String @map("user_id")
   listId String @map("list_id")
-  user   User   @relation("ListAccess", fields: [userId], references: [id])
+  user   User   @relation("ListAccess", fields: [userId], references: [id], onDelete: Cascade)
   list   List   @relation("ListAccess", fields: [listId], references: [id], onDelete: Cascade)
 
   @@id([userId, listId])
@@ -63,21 +63,13 @@ model ListItem {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   title  String
-  rating Rating // enum with values 1 to 5
+  rating Int
 
   authorId String @map("author_id")
-  author   User   @relation("ListItemAuthor", fields: [authorId], references: [id])
+  author   User   @relation("ListItemAuthor", fields: [authorId], references: [id], onDelete: Cascade)
 
   listId String @map("list_id")
   list   List   @relation("ListItems", fields: [listId], references: [id], onDelete: Cascade)
 
   @@map("list_item")
-}
-
-enum Rating {
-  ONE
-  TWO
-  THREE
-  FOUR
-  FIVE
 }

@@ -54,12 +54,14 @@ export class ListController {
     return this.listService.findListsCreatedByUser(id);
   }
 
+  @Auth()
   @UsePipes(new ValidationPipe())
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
     return this.listService.update(id, updateListDto);
   }
 
+  @Auth()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.listService.delete(id);
