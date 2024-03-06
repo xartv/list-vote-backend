@@ -24,18 +24,29 @@ export class ListService {
       where: {
         authorId: userId,
       },
+      orderBy: {
+        createdAt: 'asc',
+      },
       select: {
         id: true,
         createdAt: true,
         updatedAt: true,
         title: true,
         items: {
+          orderBy: {
+            createdAt: 'asc',
+          },
           select: {
             title: true,
             rating: true,
           },
         },
         accessUsers: {
+          orderBy: {
+            user: {
+              name: 'asc',
+            },
+          },
           select: {
             user: {
               select: {
