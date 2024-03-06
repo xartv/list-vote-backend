@@ -54,8 +54,8 @@ export class ListController {
     return this.listService.findListsCreatedByUser(id);
   }
 
-  @Auth()
   @UsePipes(new ValidationPipe())
+  @Auth()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
     return this.listService.update(id, updateListDto);

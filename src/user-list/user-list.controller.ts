@@ -1,4 +1,11 @@
-import { Body, Controller, Delete, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UserListService } from './user-list.service';
 import { UserListDto } from './dto/user-list.dto';
 import { Auth } from '@decorators/auth.decorator';
@@ -7,12 +14,14 @@ import { Auth } from '@decorators/auth.decorator';
 export class UserListController {
   constructor(private readonly userListService: UserListService) {}
 
+  @UsePipes(new ValidationPipe())
   @Auth()
   @Post()
   createRelation(@Body() dto: UserListDto) {
     return this.userListService.createRelation(dto);
   }
 
+  @UsePipes(new ValidationPipe())
   @Auth()
   @Delete()
   deleteRelation(@Body() dto: UserListDto) {

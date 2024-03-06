@@ -24,6 +24,28 @@ export class ListService {
       where: {
         authorId: userId,
       },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        items: {
+          select: {
+            title: true,
+            rating: true,
+          },
+        },
+        accessUsers: {
+          select: {
+            user: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 
@@ -33,6 +55,34 @@ export class ListService {
         accessUsers: {
           some: {
             userId,
+          },
+        },
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        author: {
+          select: {
+            email: true,
+            name: true,
+          },
+        },
+        items: {
+          select: {
+            title: true,
+            rating: true,
+          },
+        },
+        accessUsers: {
+          select: {
+            user: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
           },
         },
       },
