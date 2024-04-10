@@ -30,7 +30,7 @@ npx prisma migrate dev --name init
 DATABASE_URL="postgresql://user:password@localhost:5432/list-vote-db?schema=public"
 JWT_SECRET="secret"
 ```
-6. Instead of user and password in DATABASE_URL, substitute the database user data, you also need to make sure that the database was launched on port 5432 and if you previously created a database with a name different from list-vote-db, then you need to replace it
+6. Instead of user and password in DATABASE_URL, substitute the database user data, you also need to make sure that the database was launched on port 5432 and if you previously created a database with a name different from **list-vote-db**, then you need to replace it
 
 7. Phew, that's it, you can launch the application 🏆
 ```bash
