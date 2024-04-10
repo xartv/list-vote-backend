@@ -10,9 +10,9 @@ Frontend you can find here https://github.com/xartv/list-vote-frontend
 ## Installation and running
 
 1. The project uses postgreSQL as a database, for the application to work you need to install it from the official website [postgresql.org](https://www.postgresql.org/)
-<br>
+
 2. After installation, create a database named **list-vote-db** (you can use any name, but in this case you will need to make changes to the .env file)
-<br>
+
 3. The next step is to download the project and install the dependencies
 ```bash
 git fetch https://github.com/xartv/list-vote-backend.git
@@ -29,7 +29,7 @@ DATABASE_URL="postgresql://user:password@localhost:5432/list-vote-db?schema=publ
 JWT_SECRET="secret"
 ```
 6. Instead of user and password in DATABASE_URL, substitute the database user data, you also need to make sure that the database was launched on port 5432 and if you previously created a database with a name different from list-vote-db, then you need to replace it
-<br>
+
 7. Phew, that's it, you can launch the application 🏆
 ```bash
 npm run start:dev
