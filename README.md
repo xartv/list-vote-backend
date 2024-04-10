@@ -16,6 +16,8 @@ Frontend you can find here https://github.com/xartv/list-vote-frontend
 3. The next step is to download the project and install the dependencies
 ```bash
 git fetch https://github.com/xartv/list-vote-backend.git
+```
+```bash
 cd list-vote-backend/
 npm i
 ```
