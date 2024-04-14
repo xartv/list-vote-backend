@@ -21,17 +21,16 @@ git clone https://github.com/xartv/list-vote-backend.git
 cd list-vote-backend/
 npm i
 ```
-4. Next you need to migrate using Prisma
-```bash
-npx prisma migrate dev --name init
-```
-5. You are at the finish line, all that remains is to create a .env file in the root of the project and copy the following code into it
+4. Create a .env file in the root of the project and copy the following code into it
 ```
 DATABASE_URL="postgresql://user:password@localhost:5432/list-vote-db?schema=public"
 JWT_SECRET="secret"
 ```
-6. Instead of user and password in DATABASE_URL, substitute the database user data, you also need to make sure that the database was launched on port 5432 and if you previously created a database with a name different from **list-vote-db**, then you need to replace it
-
+5. Instead of user and password in DATABASE_URL, substitute the database user data, you also need to make sure that the database was launched on port 5432 and if you previously created a database with a name different from **list-vote-db**, then you need to replace it
+6. You are at the finish line, all that remains is migrate db using Prisma
+```bash
+npx prisma migrate dev --name init
+```
 7. Phew, that's it, you can launch the application 🏆
 ```bash
 npm run start:dev
