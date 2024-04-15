@@ -36,10 +36,6 @@ export class ListService {
           orderBy: {
             createdAt: 'asc',
           },
-          select: {
-            title: true,
-            rating: true,
-          },
         },
         accessUsers: {
           orderBy: {
@@ -81,9 +77,8 @@ export class ListService {
           },
         },
         items: {
-          select: {
-            title: true,
-            rating: true,
+          orderBy: {
+            createdAt: 'asc',
           },
         },
         accessUsers: {
