@@ -43,12 +43,6 @@ export class ListController {
   }
 
   @Auth()
-  @Get(':listId')
-  findById(@Param('listId') listId: string) {
-    return this.listService.findListById(listId);
-  }
-
-  @Auth()
   @Get('available')
   findAllAvailable(@CurrentUser('id') id: string) {
     return this.listService.findAvailableListsForUser(id);
@@ -58,6 +52,12 @@ export class ListController {
   @Get('created')
   findAllCreated(@CurrentUser('id') id: string) {
     return this.listService.findListsCreatedByUser(id);
+  }
+
+  @Auth()
+  @Get(':listId')
+  findById(@Param('listId') listId: string) {
+    return this.listService.findListById(listId);
   }
 
   @UsePipes(new ValidationPipe())
