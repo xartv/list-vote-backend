@@ -19,6 +19,40 @@ export class ListService {
     });
   }
 
+  findListById(listId: string) {
+    return this.prisma.list.findUnique({
+      where: {
+        id: listId,
+      },
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        title: true,
+        items: {
+          orderBy: {
+            createdAt: 'asc',
+          },
+        },
+        accessUsers: {
+          orderBy: {
+            user: {
+              name: 'asc',
+            },
+          },
+          select: {
+            user: {
+              select: {
+                id: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
   findListsCreatedByUser(userId: string) {
     return this.prisma.list.findMany({
       where: {

@@ -43,6 +43,12 @@ export class ListController {
   }
 
   @Auth()
+  @Get(':listId')
+  findById(@Param('listId') listId: string) {
+    return this.listService.findListById(listId);
+  }
+
+  @Auth()
   @Get('available')
   findAllAvailable(@CurrentUser('id') id: string) {
     return this.listService.findAvailableListsForUser(id);
