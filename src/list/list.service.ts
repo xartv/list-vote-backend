@@ -45,6 +45,7 @@ export class ListService {
               select: {
                 id: true,
                 email: true,
+                name: true,
               },
             },
           },
@@ -82,6 +83,7 @@ export class ListService {
               select: {
                 id: true,
                 email: true,
+                name: true,
               },
             },
           },
@@ -121,6 +123,7 @@ export class ListService {
               select: {
                 id: true,
                 email: true,
+                name: true,
               },
             },
           },
