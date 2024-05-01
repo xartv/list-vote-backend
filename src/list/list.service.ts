@@ -9,7 +9,7 @@ export class ListService {
   create(title: string, authorId: string) {
     return this.prisma.list.create({
       data: {
-        title,
+        title: title ?? '',
         author: {
           connect: {
             id: authorId,
@@ -31,7 +31,7 @@ export class ListService {
         title: true,
         items: {
           orderBy: {
-            createdAt: 'asc',
+            createdAt: 'desc',
           },
         },
         accessUsers: {
@@ -60,7 +60,7 @@ export class ListService {
         authorId: userId,
       },
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
       select: {
         id: true,
@@ -69,7 +69,7 @@ export class ListService {
         title: true,
         items: {
           orderBy: {
-            createdAt: 'asc',
+            createdAt: 'desc',
           },
         },
         accessUsers: {
@@ -101,6 +101,9 @@ export class ListService {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
       select: {
         id: true,
         createdAt: true,
@@ -114,7 +117,7 @@ export class ListService {
         },
         items: {
           orderBy: {
-            createdAt: 'asc',
+            createdAt: 'desc',
           },
         },
         accessUsers: {
