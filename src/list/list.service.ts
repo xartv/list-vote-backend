@@ -31,7 +31,7 @@ export class ListService {
         title: true,
         items: {
           orderBy: {
-            createdAt: 'desc',
+            createdAt: 'asc',
           },
         },
         accessUsers: {
@@ -69,7 +69,7 @@ export class ListService {
         title: true,
         items: {
           orderBy: {
-            createdAt: 'desc',
+            createdAt: 'asc',
           },
         },
         accessUsers: {
@@ -117,7 +117,7 @@ export class ListService {
         },
         items: {
           orderBy: {
-            createdAt: 'desc',
+            createdAt: 'asc',
           },
         },
         accessUsers: {
