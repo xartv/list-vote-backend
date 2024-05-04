@@ -25,7 +25,8 @@ model User {
   lists        UserList[] @relation("ListAccess")
   createdLists List[]     @relation("ListAuthor")
 
-  listItems ListItem[] @relation("ListItemAuthor")
+  listItems   ListItem[]   @relation("ListItemAuthor")
+  ratingMarks RatingMark[] @relation("RatingMarksAuthor")
 
   @@map("user")
 }
@@ -71,5 +72,23 @@ model ListItem {
   listId String @map("list_id")
   list   List   @relation("ListItems", fields: [listId], references: [id], onDelete: Cascade)
 
+  ratingMarks RatingMark[] @relation("RatingMarks")
+
   @@map("list_item")
+}
+
+model RatingMark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  value Int
+
+  authorId String @map("author_id")
+  author   User   @relation("RatingMarksAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  listItemId String   @map("list_item_id")
+  listItem   ListItem @relation("RatingMarks", fields: [listItemId], references: [id], onDelete: Cascade)
+
+  @@map("rating_mark")
 }
