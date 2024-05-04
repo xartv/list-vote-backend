@@ -8,12 +8,12 @@ export class ListItemService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createListItemDto: CreateListItemDto, authorId: string) {
-    const { listId, rating, title } = createListItemDto;
+    const { listId, title } = createListItemDto;
 
     return this.prisma.listItem.create({
       data: {
         title: title ?? '',
-        rating: rating ?? 0,
+        rating: 0,
         author: {
           connect: {
             id: authorId,

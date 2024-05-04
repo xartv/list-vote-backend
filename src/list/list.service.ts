@@ -24,30 +24,20 @@ export class ListService {
       where: {
         id: listId,
       },
-      select: {
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-        title: true,
+      include: {
+        accessUsers: true,
         items: {
           orderBy: {
             createdAt: 'asc',
           },
-        },
-        accessUsers: {
-          orderBy: {
-            user: {
-              name: 'asc',
-            },
+          include: {
+            ratingMarks: true,
           },
+        },
+        author: {
           select: {
-            user: {
-              select: {
-                id: true,
-                email: true,
-                name: true,
-              },
-            },
+            name: true,
+            email: true,
           },
         },
       },
@@ -62,30 +52,20 @@ export class ListService {
       orderBy: {
         createdAt: 'desc',
       },
-      select: {
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-        title: true,
+      include: {
+        accessUsers: true,
         items: {
           orderBy: {
             createdAt: 'asc',
           },
-        },
-        accessUsers: {
-          orderBy: {
-            user: {
-              name: 'asc',
-            },
+          include: {
+            ratingMarks: true,
           },
+        },
+        author: {
           select: {
-            user: {
-              select: {
-                id: true,
-                email: true,
-                name: true,
-              },
-            },
+            name: true,
+            email: true,
           },
         },
       },
@@ -104,31 +84,20 @@ export class ListService {
       orderBy: {
         createdAt: 'desc',
       },
-      select: {
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-        title: true,
-        author: {
-          select: {
-            email: true,
-            name: true,
-          },
-        },
+      include: {
+        accessUsers: true,
         items: {
           orderBy: {
             createdAt: 'asc',
           },
+          include: {
+            ratingMarks: true,
+          },
         },
-        accessUsers: {
+        author: {
           select: {
-            user: {
-              select: {
-                id: true,
-                email: true,
-                name: true,
-              },
-            },
+            name: true,
+            email: true,
           },
         },
       },
