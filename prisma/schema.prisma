@@ -64,7 +64,7 @@ model ListItem {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   title  String
-  rating Int
+  rating Float
 
   authorId String @map("author_id")
   author   User   @relation("ListItemAuthor", fields: [authorId], references: [id], onDelete: Cascade)

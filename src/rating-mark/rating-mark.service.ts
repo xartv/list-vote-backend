@@ -10,20 +10,46 @@ export class RatingMarkService {
   create(authorId: string, createRatingMarkDto: CreateRatingMarkDto) {
     const { listItemId, value } = createRatingMarkDto;
 
-    return this.prisma.ratingMark.create({
-      data: {
-        value,
-        listItem: {
-          connect: {
-            id: listItemId,
+    return this.prisma.$transaction(async (prisma) => {
+      const ratingMark = await this.prisma.ratingMark.create({
+        data: {
+          value,
+          listItem: {
+            connect: {
+              id: listItemId,
+            },
+          },
+          author: {
+            connect: {
+              id: authorId,
+            },
           },
         },
-        author: {
-          connect: {
-            id: authorId,
-          },
+      });
+
+      const listItem = await prisma.listItem.findUnique({
+        where: {
+          id: listItemId,
         },
-      },
+        include: {
+          ratingMarks: true,
+        },
+      });
+
+      const sum = listItem.ratingMarks.reduce(
+        (acc, rating) => acc + rating.value,
+        0,
+      );
+      const count = listItem.ratingMarks.length;
+      const average = count === 0 ? 0 : sum / count;
+      const roundedAverage = Math.round(average * 10) / 10;
+
+      await prisma.listItem.update({
+        where: { id: listItemId },
+        data: { rating: roundedAverage },
+      });
+
+      return ratingMark;
     });
   }
 
@@ -33,6 +59,14 @@ export class RatingMarkService {
         id: raitingMarkId,
       },
       data: updateRatingMarkDto,
+    });
+  }
+
+  remove(raitingMarkId: string) {
+    return this.prisma.ratingMark.delete({
+      where: {
+        id: raitingMarkId,
+      },
     });
   }
 }

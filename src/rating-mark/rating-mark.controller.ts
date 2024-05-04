@@ -38,4 +38,10 @@ export class RatingMarkController {
   ) {
     return this.ratingMarkService.update(id, updateRatingMarkDto);
   }
+
+  @Auth()
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.ratingMarkService.remove(id);
+  }
 }
