@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRatingMarkDto } from './dto/create-rating-mark.dto';
 import { PrismaService } from 'src/prisma.service';
-import { recalculateRating } from './utils/recalculate-rating.util';
 import { UpdateRatingMarkDto } from './dto/update-rating-mark.dto';
 
 @Injectable()
@@ -28,7 +27,27 @@ export class RatingMarkService {
         },
       });
 
-      recalculateRating(this.prisma, ratingMark.listItemId);
+      const listItem = await prisma.listItem.findUnique({
+        where: {
+          id: listItemId,
+        },
+        include: {
+          ratingMarks: true,
+        },
+      });
+
+      const sum = listItem.ratingMarks.reduce(
+        (acc, rating) => acc + rating.value,
+        0,
+      );
+      const count = listItem.ratingMarks.length;
+      const average = count === 0 ? 0 : sum / count;
+      const roundedAverage = Math.round(average * 10) / 10;
+
+      await prisma.listItem.update({
+        where: { id: listItemId },
+        data: { rating: roundedAverage },
+      });
 
       return ratingMark;
     });
@@ -43,7 +62,27 @@ export class RatingMarkService {
         data: updateRatingMarkDto,
       });
 
-      recalculateRating(this.prisma, ratingMark.listItemId);
+      const listItem = await prisma.listItem.findUnique({
+        where: {
+          id: ratingMark.listItemId,
+        },
+        include: {
+          ratingMarks: true,
+        },
+      });
+
+      const sum = listItem.ratingMarks.reduce(
+        (acc, rating) => acc + rating.value,
+        0,
+      );
+      const count = listItem.ratingMarks.length;
+      const average = count === 0 ? 0 : sum / count;
+      const roundedAverage = Math.round(average * 10) / 10;
+
+      await prisma.listItem.update({
+        where: { id: ratingMark.listItemId },
+        data: { rating: roundedAverage },
+      });
 
       return ratingMark;
     });
@@ -57,7 +96,27 @@ export class RatingMarkService {
         },
       });
 
-      recalculateRating(this.prisma, ratingMark.listItemId);
+      const listItem = await prisma.listItem.findUnique({
+        where: {
+          id: ratingMark.listItemId,
+        },
+        include: {
+          ratingMarks: true,
+        },
+      });
+
+      const sum = listItem.ratingMarks.reduce(
+        (acc, rating) => acc + rating.value,
+        0,
+      );
+      const count = listItem.ratingMarks.length;
+      const average = count === 0 ? 0 : sum / count;
+      const roundedAverage = Math.round(average * 10) / 10;
+
+      await prisma.listItem.update({
+        where: { id: ratingMark.listItemId },
+        data: { rating: roundedAverage },
+      });
 
       return ratingMark;
     });
