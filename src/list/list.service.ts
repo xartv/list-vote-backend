@@ -25,7 +25,11 @@ export class ListService {
         id: listId,
       },
       include: {
-        accessUsers: true,
+        accessUsers: {
+          include: {
+            user: true,
+          },
+        },
         items: {
           orderBy: {
             createdAt: 'asc',
@@ -53,7 +57,11 @@ export class ListService {
         createdAt: 'desc',
       },
       include: {
-        accessUsers: true,
+        accessUsers: {
+          include: {
+            user: true,
+          },
+        },
         items: {
           orderBy: {
             createdAt: 'asc',
@@ -85,7 +93,11 @@ export class ListService {
         createdAt: 'desc',
       },
       include: {
-        accessUsers: true,
+        accessUsers: {
+          include: {
+            user: true,
+          },
+        },
         items: {
           orderBy: {
             createdAt: 'asc',
