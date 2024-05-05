@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRatingMarkDto } from './dto/create-rating-mark.dto';
-import { UpdateRatingMarkDto } from './dto/update-rating-mark.dto';
 import { PrismaService } from 'src/prisma.service';
+import { recalculateRating } from './utils/recalculate-rating.util';
+import { UpdateRatingMarkDto } from './dto/update-rating-mark.dto';
 
 @Injectable()
 export class RatingMarkService {
@@ -11,7 +12,7 @@ export class RatingMarkService {
     const { listItemId, value } = createRatingMarkDto;
 
     return this.prisma.$transaction(async (prisma) => {
-      const ratingMark = await this.prisma.ratingMark.create({
+      const ratingMark = await prisma.ratingMark.create({
         data: {
           value,
           listItem: {
@@ -27,46 +28,38 @@ export class RatingMarkService {
         },
       });
 
-      const listItem = await prisma.listItem.findUnique({
-        where: {
-          id: listItemId,
-        },
-        include: {
-          ratingMarks: true,
-        },
-      });
-
-      const sum = listItem.ratingMarks.reduce(
-        (acc, rating) => acc + rating.value,
-        0,
-      );
-      const count = listItem.ratingMarks.length;
-      const average = count === 0 ? 0 : sum / count;
-      const roundedAverage = Math.round(average * 10) / 10;
-
-      await prisma.listItem.update({
-        where: { id: listItemId },
-        data: { rating: roundedAverage },
-      });
+      recalculateRating(prisma, ratingMark.listItemId);
 
       return ratingMark;
     });
   }
 
   update(raitingMarkId: string, updateRatingMarkDto: UpdateRatingMarkDto) {
-    return this.prisma.ratingMark.update({
-      where: {
-        id: raitingMarkId,
-      },
-      data: updateRatingMarkDto,
+    return this.prisma.$transaction(async (prisma) => {
+      const ratingMark = await prisma.ratingMark.update({
+        where: {
+          id: raitingMarkId,
+        },
+        data: updateRatingMarkDto,
+      });
+
+      recalculateRating(prisma, ratingMark.listItemId);
+
+      return ratingMark;
     });
   }
 
   remove(raitingMarkId: string) {
-    return this.prisma.ratingMark.delete({
-      where: {
-        id: raitingMarkId,
-      },
+    return this.prisma.$transaction(async (prisma) => {
+      const ratingMark = await prisma.ratingMark.delete({
+        where: {
+          id: raitingMarkId,
+        },
+      });
+
+      recalculateRating(prisma, ratingMark.listItemId);
+
+      return ratingMark;
     });
   }
 }
