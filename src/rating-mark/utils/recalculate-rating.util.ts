@@ -1,11 +1,7 @@
-import type { Prisma, PrismaClient } from '@prisma/client';
-import type { DefaultArgs } from '@prisma/client/runtime/library';
+import { PrismaService } from 'src/prisma.service';
 
 export const recalculateRating = async (
-  prisma: Omit<
-    PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
-    '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
-  >,
+  prisma: PrismaService,
   listItemId: string,
 ) => {
   const listItem = await prisma.listItem.findUnique({

@@ -28,7 +28,7 @@ export class RatingMarkService {
         },
       });
 
-      recalculateRating(prisma, ratingMark.listItemId);
+      recalculateRating(this.prisma, ratingMark.listItemId);
 
       return ratingMark;
     });
@@ -43,7 +43,7 @@ export class RatingMarkService {
         data: updateRatingMarkDto,
       });
 
-      recalculateRating(prisma, ratingMark.listItemId);
+      recalculateRating(this.prisma, ratingMark.listItemId);
 
       return ratingMark;
     });
@@ -57,7 +57,7 @@ export class RatingMarkService {
         },
       });
 
-      recalculateRating(prisma, ratingMark.listItemId);
+      recalculateRating(this.prisma, ratingMark.listItemId);
 
       return ratingMark;
     });
