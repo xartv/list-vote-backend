@@ -9,12 +9,12 @@ async function bootstrap() {
   const port = configService.get('PORT', 3002);
 
   app.setGlobalPrefix('api');
-  //app.use(cookieParser());
-  //app.enableCors({
-  //  origin: ['http://localhost:3000'],
-  //  credentials: true,
-  //  exposedHeaders: 'set-cookie',
-  //});
+  app.use(cookieParser());
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+    exposedHeaders: 'set-cookie',
+  });
 
   await app.listen(port);
 }
