@@ -7,6 +7,8 @@ Frontend you can find here https://github.com/xartv/list-vote-frontend
 
 **Stack: Typescript + Node.js + NestJS + PostgreSQL + Prisma**
 
+Demo api you can find here https://list-vote-backend-production.up.railway.app/api
+
 ## Installation and running
 
 1. The project uses postgreSQL as a database, for the application to work you need to install it from the official website [postgresql.org](https://www.postgresql.org/)
