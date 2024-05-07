@@ -13,14 +13,16 @@ import {
   EXEPTION_MSG_INVALID_REFRESH_TOKEN,
   EXPIRE_DAY_REFRESH_TOKEN,
   REFRESH_TOKEN_NAME,
-  SET_COOKIE_OPTIONS,
 } from './auth.constants';
+import { ConfigService } from '@nestjs/config';
+import { getCookieOptions } from './utils/getCookieOptions';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
+    private readonly configService: ConfigService,
   ) {}
 
   async login(dto: AuthDto) {
@@ -51,14 +53,14 @@ export class AuthService {
     expiresIn.setDate(expiresIn.getDate() + EXPIRE_DAY_REFRESH_TOKEN);
 
     res.cookie(REFRESH_TOKEN_NAME, refreshToken, {
-      ...SET_COOKIE_OPTIONS,
+      ...getCookieOptions(this.configService),
       expires: expiresIn,
     });
   }
 
   removeRefreshTokenFromResponse(res: Response) {
     res.cookie(REFRESH_TOKEN_NAME, '', {
-      ...SET_COOKIE_OPTIONS,
+      ...getCookieOptions(this.configService),
       expires: new Date(0),
     });
   }

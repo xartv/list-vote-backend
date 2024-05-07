@@ -7,11 +7,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const port = configService.get('PORT', 3002);
+  const corsOrigin = configService.get('CORS_DOMAIN', 'http://localhost:3000');
 
   app.setGlobalPrefix('api');
   app.use(cookieParser());
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: [corsOrigin],
     credentials: true,
     exposedHeaders: 'set-cookie',
   });
