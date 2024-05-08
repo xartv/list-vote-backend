@@ -27,8 +27,10 @@ npm i
 ```
 DATABASE_URL="postgresql://user:password@localhost:5432/list-vote-db?schema=public"
 JWT_SECRET="secret"
+CORS_DOMAIN=http://localhost:3000
+COOKIE_DOMAIN=localhost
 ```
-5. Instead of user and password in DATABASE_URL, substitute the database user data, you also need to make sure that the database was launched on port 5432 and if you previously created a database with a name different from **list-vote-db**, then you need to replace it
+5. Instead of user and password in DATABASE_URL, substitute the database user data, you also need to make sure that the database was launched on port 5432 and if you previously created a database with a name different from **list-vote-db**, then you need to replace it. CORS_DOMAIN is the domain that is allowed to send requests by CORS policy. COOKIE_DOMAIN is domain for setting cookies.
 6. You are at the finish line, all that remains is migrate db using Prisma
 ```bash
 npx prisma migrate dev --name init
