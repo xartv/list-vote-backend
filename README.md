@@ -8,6 +8,7 @@ Frontend you can find here https://github.com/xartv/list-vote-frontend
 **Stack: Typescript + Node.js + NestJS + PostgreSQL + Prisma**
 
 Demo api you can find here https://listvote.ru/api
+
 Demo of full project - https://listvote.ru/
 
 ## Installation and running
